@@ -66,8 +66,8 @@
         <p>secretHash: <textarea id="zilGenerateSecretResultHash"></textarea></p>
         <h3>Initiate swap:</h3>
         <p>value: <input type="text" id="zilFundValue" value="100" /></p>
-        <p>recipientAddress: <input type="text" id="zilRecipientAddress" value="0x454f8D6e2b0F6Ca13638cE6E00904D5E75CBA291" /></p>
-        <p>refundAddress: <input type="text" id="zilRefundAddress" value="0x4C01f55Edb32743FFC30876e203F60fBCe4ADd14" /></p>
+        <p>recipientAddress: <input type="text" id="zilRecipientAddress" value="0x43050e59fb74bcd3598c70a96a284fc79a48649e" /></p>
+        <p>refundAddress: <input type="text" id="zilRefundAddress" value="0x0fd1fa24a755051bb06e87cf5a27b389a28d84df" /></p>
         <p>secretHash: <input type="text" id="zilSecretHash" /></p>
         <p>expiration: <input type="text" id="zilExpiration" value="1568194353" /></p>
         <p><button id="zilInitiateSwap">Initiate Swap</button></p>
@@ -137,9 +137,9 @@
         $(`#${prefix}FindInitiateSwap`).show()
       })
 
-      client.findInitiateSwapTransaction(value, recipientAddress, refundAddress, secretHash, expiration).then(result => {
-        $(`#${prefix}FindInitiateSwapTransactionResult`).text(JSON.stringify(result, null, 2))
-      })
+      // client.findInitiateSwapTransaction(value, recipientAddress, refundAddress, secretHash, expiration).then(result => {
+      //   $(`#${prefix}FindInitiateSwapTransactionResult`).text(JSON.stringify(result, null, 2))
+      // })
     }
 
     function verifySwap (client, prefix) {
@@ -174,11 +174,11 @@
         $(`#${prefix}FindClaimSwap`).show()
       })
 
-      client.findClaimSwapTransaction(initiationTxHash, recipientAddress, refundAddress, secretHash, expiration).then(result => {
-        $(`#${prefix}FindClaimSwapTransactionResult`).text(JSON.stringify(result, null, 2))
-        $(`#${prefix}FindClaimSwapTransactionResultSecret`).text(result.secret)
-        $(`#${prefix}FindClaimSwapSecret`).show()
-      })
+      // client.findClaimSwapTransaction(initiationTxHash, recipientAddress, refundAddress, secretHash, expiration).then(result => {
+      //   $(`#${prefix}FindClaimSwapTransactionResult`).text(JSON.stringify(result, null, 2))
+      //   $(`#${prefix}FindClaimSwapTransactionResultSecret`).text(result.secret)
+      //   $(`#${prefix}FindClaimSwapSecret`).show()
+      // })
     }
 
     function refundSwap (client, prefix) {

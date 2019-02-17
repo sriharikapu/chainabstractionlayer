@@ -14,8 +14,16 @@ export default class ZilliqaRPCProvider extends Provider {
     this._privKeys = { refund: refundPrivKey, redeem: redeemPrivKey }
     this._refundPrivKey = refundPrivKey
     this._redeemPrivKey = redeemPrivKey
-    this._version = bytes.pack(chain_id, msg_version);
+    this._version = bytes.pack(chain_id, msg_version)
     this._gasPrice = units.toQa('1000', units.Units.Li)
+
+    this._zilliqa.wallet.addByPrivateKey(
+      this._privKeys['refund']
+    )
+
+    this._zilliqa.wallet.addByPrivateKey(
+      this._privKeys['redeem']
+    )
   }
 
   async getAddresses () {
@@ -31,7 +39,7 @@ export default class ZilliqaRPCProvider extends Provider {
   }
 
   async deployContract (script, initParams, from) {
-  	const contract = zilliqa.contracts.new(script, initParams)
+  	const contract = this._zilliqa.contracts.new(script, initParams)
   	const pubKey = CP.getPubKeyFromPrivateKey(this._privKeys[from])
 
     // Deploy the contract
@@ -45,14 +53,14 @@ export default class ZilliqaRPCProvider extends Provider {
   }
 
   async callContract(contractAddress, transition, fields, value, from) {
-  	const contract = zilliqa.contracts.at(contractAddress)
+  	const contract = this._zilliqa.contracts.at(contractAddress)
   	const pubKey = CP.getPubKeyFromPrivateKey(this._privKeys[from])
 
   	const callTx = await contract.call(
       transition, fields,
       {
         // amount, gasPrice and gasLimit must be explicitly provided
-        version: VERSION,
+        version: this._version,
         amount: new BN(value),
         gasPrice: this._gasPrice,
         gasLimit: Long.fromNumber(8000),
@@ -60,6 +68,6 @@ export default class ZilliqaRPCProvider extends Provider {
       }
     );
 
-    return callTx
+    return callTx.id
   }
 }

@@ -116,29 +116,32 @@ export default class ZilliqaSwapProvider extends Provider {
       {
         vname: "refund_address",
         type: "ByStr20",
-        value: `0x${refundAddress}`
+        value: `${refundAddress}`
       },
       {
         vname: "redeem_address",
         type: "ByStr20",
-        value: `0x${redeemAddress}`
+        value: `${recipientAddress}`
       },
       {
         vname: "expiration_blk",
         type: "BNum",
-        value: "90000"
+        value: expiration.toString()
       },
       {
         vname: "secretHash",
         type: "ByStr32",
-        value: "0x192f358b9eb5c51b27dff7a7cc82c8ffe058e2c92fdc2474b88bf5c41a14567f"
+        value: `0x${secretHash}`
       }
     ];
 
+    console.log('Deploying Contract')
     const { deployTx, htlc } = await this.getMethod('deployContract')(htlcScript, init, 'refund')
 
+    console.log('Funding Contract')
     await this.getMethod('callContract')(htlc.address, 'fund', [], value, 'refund')
 
+    console.log('HTLC Initialized')
     return htlc.address
   }
 
@@ -147,7 +150,7 @@ export default class ZilliqaSwapProvider extends Provider {
       {
         vname: "secret",
         type: "ByStr32",
-        value: `0x{secret}`
+        value: `0x${secret}`
       }
     ]
 
