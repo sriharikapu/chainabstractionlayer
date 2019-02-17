@@ -111,7 +111,7 @@
     ethereum.addProvider(new providers.ethereum.EthereumSwapProvider())
 
     const zilliqa = new Client()
-    zilliqa.addProvider(new providers.zilliqa.ZilliqaRPCProvider('https://dev-api.zilliqa.com', '95c68a61493b0e1c68963716ce40dce918bb6a9a8582e51d33fe302169038076', '869a01d55b9e417eea90e32b5d166d2bed7ba289fe2c8ea71357db6db5001f97'))
+    zilliqa.addProvider(new providers.zilliqa.ZilliqaRPCProvider('https://dev-api.zilliqa.com', '95c68a61493b0e1c68963716ce40dce918bb6a9a8582e51d33fe302169038076', '869a01d55b9e417eea90e32b5d166d2bed7ba289fe2c8ea71357db6db5001f97', 333, 1))
     zilliqa.addProvider(new providers.zilliqa.ZilliqaSwapProvider())
 
     function generateSecret (client, prefix) {
