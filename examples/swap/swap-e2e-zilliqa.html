@@ -27,8 +27,8 @@
         <p>secretHash: <textarea id="ethGenerateSecretResultHash"></textarea></p>
         <h3>Initiate swap:</h3>
         <p>value: <input type="text" id="ethFundValue" value="100" /></p>
-        <p>recipientAddress: <input type="text" id="ethRecipientAddress" value="0x454f8D6e2b0F6Ca13638cE6E00904D5E75CBA291" /></p>
-        <p>refundAddress: <input type="text" id="ethRefundAddress" value="0x4C01f55Edb32743FFC30876e203F60fBCe4ADd14" /></p>
+        <p>recipientAddress: <input type="text" id="ethRecipientAddress" value="0x43050e59fb74bcd3598c70a96a284fc79a48649e" /></p>
+        <p>refundAddress: <input type="text" id="ethRefundAddress" value="0x0fd1fa24a755051bb06e87cf5a27b389a28d84df" /></p>
         <p>secretHash: <input type="text" id="ethSecretHash" /></p>
         <p>expiration: <input type="text" id="ethExpiration" value="1568194353" /></p>
         <p><button id="ethInitiateSwap">Initiate Swap</button></p>
@@ -104,10 +104,6 @@
   <script>
     /* global $, ChainAbstractionLayer, web3 */
     const { Client, providers, networks, crypto } = ChainAbstractionLayer
-    const bitcoin = new Client()
-    bitcoin.addProvider(new providers.bitcoin.BitcoreRPCProvider('https://localhost:18332', 'bitcoin', 'local321'))
-    bitcoin.addProvider(new providers.bitcoin.BitcoinLedgerProvider({ network: networks.bitcoin_testnet, segwit: false }))
-    bitcoin.addProvider(new providers.bitcoin.BitcoinSwapProvider({ network: networks.bitcoin_testnet }))
 
     const ethereum = new Client()
     ethereum.addProvider(new providers.ethereum.EthereumRPCProvider('http://localhost:8545'))
@@ -115,7 +111,7 @@
     ethereum.addProvider(new providers.ethereum.EthereumSwapProvider())
 
     const zilliqa = new Client()
-    // zilliqa.addProvider(new providers.zilliqa.ZilliqaRPCProvider('https://dev-api.zilliqa.com'))
+    zilliqa.addProvider(new providers.zilliqa.ZilliqaRPCProvider('https://dev-api.zilliqa.com', '95c68a61493b0e1c68963716ce40dce918bb6a9a8582e51d33fe302169038076', '869a01d55b9e417eea90e32b5d166d2bed7ba289fe2c8ea71357db6db5001f97'))
     zilliqa.addProvider(new providers.zilliqa.ZilliqaSwapProvider())
 
     function generateSecret (client, prefix) {
