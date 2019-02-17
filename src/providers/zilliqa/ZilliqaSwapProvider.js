@@ -108,7 +108,6 @@ export default class ZilliqaSwapProvider extends Provider {
 	async initiateSwap (value, recipientAddress, refundAddress, secretHash, expiration) {
     const htlcScript = this.createSwapScript(recipientAddress, refundAddress, secretHash, expiration)
     const init = [
-      // this parameter is mandatory for all init arrays
       {
         vname: "_scilla_version",
         type: "Uint32",
@@ -132,38 +131,30 @@ export default class ZilliqaSwapProvider extends Provider {
       {
         vname: "secretHash",
         type: "ByStr32",
-        // NOTE: all byte strings passed to Scilla contracts _must_ be
-        // prefixed with 0x. Failure to do so will result in the network
-        // rejecting the transaction while consuming gas!
         value: "0x192f358b9eb5c51b27dff7a7cc82c8ffe058e2c92fdc2474b88bf5c41a14567f"
       }
     ];
 
-    // Instance of class Contract
-    const contract = zilliqa.contracts.new(code, init);
+    const { deployTx, htlc } = await this.getMethod('deployContract')(htlcScript, init, 'refund')
 
-    // Deploy the contract
-    const [deployTx, htlc] = await contract.deploy({
-      version: VERSION,
-      gasPrice: myGasPrice,
-      gasLimit: Long.fromNumber(8000),
-      pubKey: refundPubKey
-    });
+    await this.getMethod('callContract')(htlc.address, 'fund', [], value, 'refund')
 
-    const callFundTx = await htlc.call(
-      "fund", [],
-      {
-        // amount, gasPrice and gasLimit must be explicitly provided
-        version: VERSION,
-        amount: new BN(units.toQa("1", units.Units.Zil)),
-        gasPrice: myGasPrice,
-        gasLimit: Long.fromNumber(8000),
-        pubKey: refundPubKey
-      }
-    );
-
-    return deployTx.id;
+    return htlc.address
   }
 
+  async claimSwap (contractAddress, recipientAddress, refundAddress, secret, expiration) {
+    const fields = [
+      {
+        vname: "secret",
+        type: "ByStr32",
+        value: `0x{secret}`
+      }
+    ]
 
+    return await this.getMethod('callContract')(contractAddress, 'claim', fields, 0, 'redeem')
+  }
+
+  async refundSwap (contractAddress, recipientAddress, refundAddress, secretHash, expiration) {
+    return await this.getMethod('callContract')(contractAddress, 'expire', [], 0, 'refund')
+  }
 }
