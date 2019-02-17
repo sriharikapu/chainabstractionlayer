@@ -1,7 +1,7 @@
-import ZilliqaRPCProvider from './ZilliqaRPCProvider'
+// import ZilliqaRPCProvider from './ZilliqaRPCProvider'
 import ZilliqaSwapProvider from './ZilliqaSwapProvider'
 
 export {
-  ZilliqaRPCProvider,
+  // ZilliqaRPCProvider,
   ZilliqaSwapProvider
 }
