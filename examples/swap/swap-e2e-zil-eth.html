@@ -106,7 +106,7 @@
     const { Client, providers, networks, crypto } = ChainAbstractionLayer
 
     const ethereum = new Client()
-    ethereum.addProvider(new providers.ethereum.EthereumRPCProvider('http://localhost:8545'))
+    ethereum.addProvider(new providers.ethereum.EthereumRPCProvider('https://rinkeby.infura.io/pjvC14Kn4cv47X3U8qLq'))
     ethereum.addProvider(new providers.ethereum.EthereumMetaMaskProvider(web3.currentProvider))
     ethereum.addProvider(new providers.ethereum.EthereumSwapProvider())
 
