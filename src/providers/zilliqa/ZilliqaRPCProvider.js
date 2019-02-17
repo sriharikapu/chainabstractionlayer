@@ -59,5 +59,7 @@ export default class ZilliqaRPCProvider extends Provider {
         pubKey: pubKey
       }
     );
+
+    return callTx
   }
 }
